@@ -1,0 +1,54 @@
+/* Shared header styles. Keep this file linked on every page using <site-header>. */
+.site-header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 85px;
+  padding: 10px clamp(20px, 5vw, 72px);
+  background: var(--brown);
+  border-bottom: 2px solid var(--border);
+}
+
+.brand {
+  display: inline-block;
+}
+.brand img {
+  scale: 1.7;
+  display: block;
+  width: clamp(130px, 15vw, 180px);
+  height: auto;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.icon-button {
+  border: 0;
+  background: transparent;
+  color: var(--favorite);
+  font:
+    700 2.4rem/1 Georgia,
+    serif;
+  filter: drop-shadow(0 0 4px rgb(245 239 228 / 0.28));
+}
+
+.info-button {
+  color: var(--text);
+  font-size: 2.6rem;
+}
+
+@media (max-width: 440px) {
+  .site-header {
+    padding: 8px 16px;
+  }
+  .header-actions {
+    gap: 18px;
+  }
+  .brand img {
+    width: min(160px, calc(100vw - 120px));
+  }
+}
