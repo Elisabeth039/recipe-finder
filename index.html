@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="styles.css" />
     <link rel="stylesheet" href="styles/Header.css" />
     <script src="components/Header.js" type="module"></script>
-    <script src="app.js" defer></script>
+    <script src="app.js" type="module"></script>
   </head>
   <body>
     <site-header></site-header>
@@ -16,23 +16,28 @@
     <main class="page-shell">
       <section class="search-controls" aria-label="Find recipes">
         <div class="filter-group">
-          <label for="area-filter">Filter by:</label>
+          <label for="area-filter">Filters:</label>
           <select id="area-filter" name="area">
             <option value="">Country / area</option>
-            <option>Colombia</option>
-            <option>Italy</option>
           </select>
           <select id="category-filter" name="category">
             <option value="">Category</option>
-            <option>Breakfast</option>
-            <option>Dessert</option>
           </select>
           <button
             class="shuffle-button"
             type="button"
-            aria-label="Choose a random recipe"
+            aria-label="Shuffle recipes"
+            title="Shuffle recipes"
           >
             ⤨
+          </button>
+          <button
+            class="alphabetize-button"
+            type="button"
+            aria-label="Sort recipes from A to Z"
+            title="Sort recipes from A to Z"
+          >
+            A-Z
           </button>
         </div>
         <form class="search-form">
@@ -47,128 +52,12 @@
       </section>
 
       <p class="status-message" aria-live="polite"></p>
-      <section class="recipe-grid" aria-label="Placeholder recipes">
-        <article class="recipe-card">
-          <button
-            class="card-favorite is-favorite"
-            type="button"
-            aria-label="Remove Placeholder Honey Bites from favorites"
-            aria-pressed="true"
-          >
-            ★</button
-          ><a href="recipe.html"
-            ><div
-              class="recipe-image"
-              role="img"
-              aria-label="Placeholder image for Honey Bites"
-            >
-              🍯
-            </div>
-            <h2>Placeholder Honey Bites</h2>
-            <p>Colombia</p></a
-          >
-        </article>
-        <article class="recipe-card">
-          <button
-            class="card-favorite"
-            type="button"
-            aria-label="Add Placeholder Citrus Cake to favorites"
-            aria-pressed="false"
-          >
-            ★</button
-          ><a href="recipe.html"
-            ><div
-              class="recipe-image"
-              role="img"
-              aria-label="Placeholder image for Citrus Cake"
-            >
-              🍊
-            </div>
-            <h2>Placeholder Citrus Cake</h2>
-            <p>Italy</p></a
-          >
-        </article>
-        <article class="recipe-card">
-          <button
-            class="card-favorite"
-            type="button"
-            aria-label="Add Placeholder Cocoa Rolls to favorites"
-            aria-pressed="false"
-          >
-            ★</button
-          ><a href="recipe.html"
-            ><div
-              class="recipe-image"
-              role="img"
-              aria-label="Placeholder image for Cocoa Rolls"
-            >
-              🍫
-            </div>
-            <h2>Placeholder Cocoa Rolls</h2>
-            <p>Mexico</p></a
-          >
-        </article>
-        <article class="recipe-card">
-          <button
-            class="card-favorite"
-            type="button"
-            aria-label="Add Placeholder Berry Toast to favorites"
-            aria-pressed="false"
-          >
-            ★</button
-          ><a href="recipe.html"
-            ><div
-              class="recipe-image"
-              role="img"
-              aria-label="Placeholder image for Berry Toast"
-            >
-              🍓
-            </div>
-            <h2>Placeholder Berry Toast</h2>
-            <p>France</p></a
-          >
-        </article>
-        <article class="recipe-card">
-          <button
-            class="card-favorite"
-            type="button"
-            aria-label="Add Placeholder Cinnamon Swirls to favorites"
-            aria-pressed="false"
-          >
-            ★</button
-          ><a href="recipe.html"
-            ><div
-              class="recipe-image"
-              role="img"
-              aria-label="Placeholder image for Cinnamon Swirls"
-            >
-              🥨
-            </div>
-            <h2>Placeholder Cinnamon Swirls</h2>
-            <p>Sweden</p></a
-          >
-        </article>
-        <article class="recipe-card">
-          <button
-            class="card-favorite"
-            type="button"
-            aria-label="Add Placeholder Lemon Tart to favorites"
-            aria-pressed="false"
-          >
-            ★</button
-          ><a href="recipe.html"
-            ><div
-              class="recipe-image"
-              role="img"
-              aria-label="Placeholder image for Lemon Tart"
-            >
-              🍋
-            </div>
-            <h2>Placeholder Lemon Tart</h2>
-            <p>Portugal</p></a
-          >
-        </article>
-      </section>
+      <section
+        class="recipe-grid"
+        data-home-recipes
+        aria-label="Recipes"
+      ></section>
+      <nav class="pagination" aria-label="Recipe pages" hidden></nav>
     </main>
 
     <div class="backdrop" hidden></div>
