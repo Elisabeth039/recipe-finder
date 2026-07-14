@@ -1,4 +1,3 @@
-// Reusable site header for every CrumBloom page.
 class SiteHeader extends HTMLElement {
   connectedCallback() {
     this.innerHTML = `
