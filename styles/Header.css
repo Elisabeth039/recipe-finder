@@ -1,4 +1,3 @@
-/* Shared header styles. Keep this file linked on every page using <site-header>. */
 .site-header {
   position: relative;
   display: flex;

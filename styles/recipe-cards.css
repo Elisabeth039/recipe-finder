@@ -1,0 +1,80 @@
+.recipe-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 28px;
+}
+.recipe-card {
+  position: relative;
+  overflow: visible;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--card);
+  text-align: center;
+}
+.recipe-card a {
+  display: block;
+  padding: 16px 10px 10px;
+}
+.recipe-card:hover {
+  background: var(--card-hover);
+}
+.recipe-image {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 1 / 0.82;
+  border-radius: 6px;
+  background: linear-gradient(135deg, #96613a, #e5bd75 55%, #684426);
+  font-size: 4rem;
+}
+img.recipe-image {
+  display: block;
+  width: 100%;
+  object-fit: cover;
+}
+.recipe-card h2,
+.recipe-card h3 {
+  margin: 9px 0 3px;
+  font-size: 1rem;
+  font-weight: 400;
+}
+.recipe-card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+.card-favorite {
+  position: absolute;
+  z-index: 1;
+  top: -32px;
+  right: -16px;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: var(--muted);
+  font-size: 2.8rem;
+  transform: rotate(30deg);
+}
+.card-favorite.is-favorite {
+  color: var(--favorite);
+}
+.card-favorite.info-title {
+  scale: 1.2;
+  transform: rotate(0);
+}
+.compact-grid {
+  grid-template-columns: repeat(3, minmax(140px, 1fr));
+}
+@media (max-width: 760px) {
+  .recipe-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .compact-grid {
+    grid-template-columns: repeat(2, minmax(120px, 1fr));
+  }
+}
+@media (max-width: 440px) {
+  .recipe-grid,
+  .compact-grid {
+    grid-template-columns: 1fr;
+  }
+}

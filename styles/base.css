@@ -1,0 +1,53 @@
+:root {
+  --bg: #10251a;
+  --card: #1d3b2c;
+  --card-hover: #294c39;
+  --brown: #3d281b;
+  --button: #6b3d20;
+  --favorite: #e6b53d;
+  --muted: #beb6a7;
+  --text: #f5efe4;
+  --border: #795437;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  min-width: 320px;
+  color: var(--text);
+  background: var(--bg);
+  font-family: Arial, sans-serif;
+}
+button,
+input,
+select {
+  font: inherit;
+}
+button {
+  cursor: pointer;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 3px solid var(--text);
+  outline-offset: 3px;
+}
+.page-shell {
+  width: min(1120px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 32px 0 48px;
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
