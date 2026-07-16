@@ -1,4 +1,3 @@
-//checked
 export function initFavoriteButtons() {
   document.addEventListener("click", (event) => {
     const button = event.target.closest(".card-favorite");

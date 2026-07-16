@@ -1,4 +1,8 @@
-import { getAllRecipes } from "./mealdb.js";
+import {
+  getAllRecipes,
+  getCategories,
+  searchRecipesByName,
+} from "./mealdb.js";
 import { createRecipeCard } from "./recipe-card.js";
 
 const recipesPerPage = 28;
@@ -68,6 +72,8 @@ export function initHomeRecipes() {
   let allRecipes = [];
   let recipes = [];
   let currentPage = 1;
+  let searchResults = null;
+  let searchRequest = 0;
 
   if (!recipeGrid || !pagination || !message) return;
 
@@ -128,10 +134,81 @@ export function initHomeRecipes() {
     });
   }
 
+  function createFilterMenu(filter) {
+    if (!filter || filter.dataset.customMenu) return;
+
+    const menu = document.createElement("div");
+    const trigger = document.createElement("button");
+    const options = document.createElement("div");
+    const menuId = `${filter.id}-options`;
+
+    menu.className = "filter-select";
+    trigger.className = "filter-select-trigger";
+    trigger.type = "button";
+    trigger.setAttribute("aria-haspopup", "listbox");
+    trigger.setAttribute("aria-expanded", "false");
+    trigger.setAttribute("aria-controls", menuId);
+    options.className = "filter-select-options";
+    options.id = menuId;
+    options.setAttribute("role", "listbox");
+    options.hidden = true;
+
+    [...filter.options].forEach((option) => {
+      const choice = document.createElement("button");
+      choice.className = "filter-select-option";
+      choice.type = "button";
+      choice.textContent = option.textContent;
+      choice.setAttribute("role", "option");
+      choice.setAttribute("aria-selected", String(option.selected));
+      choice.addEventListener("click", () => {
+        filter.value = option.value;
+        filter.dispatchEvent(new Event("change", { bubbles: true }));
+        closeMenu();
+        trigger.focus();
+      });
+      options.append(choice);
+    });
+
+    function syncMenu() {
+      const selected = filter.selectedOptions[0];
+      trigger.textContent = selected?.textContent || "Select";
+      [...options.children].forEach((choice, index) => {
+        choice.setAttribute(
+          "aria-selected",
+          String(filter.options[index].selected),
+        );
+      });
+    }
+
+    function closeMenu() {
+      options.hidden = true;
+      trigger.setAttribute("aria-expanded", "false");
+    }
+
+    trigger.addEventListener("click", () => {
+      const isOpen = !options.hidden;
+      document.querySelectorAll(".filter-select-options").forEach((list) => {
+        list.hidden = true;
+      });
+      document.querySelectorAll(".filter-select-trigger").forEach((button) => {
+        button.setAttribute("aria-expanded", "false");
+      });
+      options.hidden = isOpen;
+      trigger.setAttribute("aria-expanded", String(!isOpen));
+    });
+    filter.addEventListener("change", syncMenu);
+    filter.classList.add("is-native-filter");
+    filter.dataset.customMenu = "true";
+    menu.append(trigger, options);
+    filter.after(menu);
+    syncMenu();
+  }
+
   function applyFilters() {
     const selectedArea = areaFilter?.value || "";
     const selectedCategory = categoryFilter?.value || "";
-    recipes = allRecipes.filter(
+    const sourceRecipes = searchResults ?? allRecipes;
+    recipes = sourceRecipes.filter(
       (recipe) =>
         (!selectedArea || recipe.strArea === selectedArea) &&
         (!selectedCategory || recipe.strCategory === selectedCategory),
@@ -173,7 +250,11 @@ export function initHomeRecipes() {
     recipeGrid.setAttribute("aria-busy", "true");
 
     try {
-      allRecipes = restoreRecipeOrder(await getAllRecipes());
+      const [loadedRecipes, categories] = await Promise.all([
+        getAllRecipes(),
+        getCategories(),
+      ]);
+      allRecipes = restoreRecipeOrder(loadedRecipes);
       addFilterOptions(
         areaFilter,
         [
@@ -182,14 +263,9 @@ export function initHomeRecipes() {
           ),
         ].sort(),
       );
-      addFilterOptions(
-        categoryFilter,
-        [
-          ...new Set(
-            allRecipes.map((recipe) => recipe.strCategory).filter(Boolean),
-          ),
-        ].sort(),
-      );
+      addFilterOptions(categoryFilter, categories);
+      createFilterMenu(areaFilter);
+      createFilterMenu(categoryFilter);
       applyFilters();
     } catch (error) {
       recipeGrid.replaceChildren();
@@ -205,5 +281,45 @@ export function initHomeRecipes() {
   categoryFilter?.addEventListener("change", applyFilters);
   shuffleButton?.addEventListener("click", shuffleRecipes);
   alphabetizeButton?.addEventListener("click", alphabetizeRecipes);
+  document.addEventListener("recipe-search", async (event) => {
+    const query = event.detail?.query || "";
+    const requestId = ++searchRequest;
+
+    if (!query) {
+      searchResults = null;
+      applyFilters();
+      return;
+    }
+
+    message.textContent = "Searching recipes…";
+    recipeGrid.setAttribute("aria-busy", "true");
+
+    try {
+      const foundRecipes = await searchRecipesByName(query);
+      if (requestId !== searchRequest) return;
+      searchResults = foundRecipes;
+      applyFilters();
+    } catch (error) {
+      if (requestId !== searchRequest) return;
+      recipeGrid.replaceChildren();
+      pagination.hidden = true;
+      message.textContent =
+        "Search could not be completed. Please try again later.";
+    } finally {
+      if (requestId === searchRequest) {
+        recipeGrid.setAttribute("aria-busy", "false");
+      }
+    }
+  });
+  document.addEventListener("click", (event) => {
+    if (!event.target.closest(".filter-select")) {
+      document.querySelectorAll(".filter-select-options").forEach((list) => {
+        list.hidden = true;
+      });
+      document.querySelectorAll(".filter-select-trigger").forEach((button) => {
+        button.setAttribute("aria-expanded", "false");
+      });
+    }
+  });
   loadRecipes();
 }

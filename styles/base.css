@@ -5,9 +5,11 @@
   --brown: #3d281b;
   --button: #6b3d20;
   --favorite: #e6b53d;
+  --fav-hover: #f3cc68;
   --muted: #beb6a7;
   --text: #f5efe4;
   --border: #795437;
+  --black: #000000;
 }
 * {
   box-sizing: border-box;

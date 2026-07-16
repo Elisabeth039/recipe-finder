@@ -1,12 +1,13 @@
-//checked
 export function initSearchForm() {
   const form = document.querySelector(".search-form");
-  const message = document.querySelector(".status-message");
 
-  if (!form || !message) return;
+  if (!form) return;
 
   form.addEventListener("submit", (event) => {
     event.preventDefault();
-    message.textContent = "No recipes found. Try a different search term.";
+    const query = new FormData(form).get("search")?.trim() || "";
+    document.dispatchEvent(
+      new CustomEvent("recipe-search", { detail: { query } }),
+    );
   });
 }

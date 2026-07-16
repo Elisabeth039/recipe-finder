@@ -1,6 +1,12 @@
-//checked
 const mealsByFirstLetterUrl =
   "https://www.themealdb.com/api/json/v1/1/search.php?f=";
+const apiUrl = "https://www.themealdb.com/api/json/v1/1/";
+
+async function getMeals(endpoint) {
+  const response = await fetch(`${apiUrl}${endpoint}`);
+  if (!response.ok) throw new Error("Recipe request failed");
+  return response.json();
+}
 
 export async function getAllRecipes() {
   const letters = "abcdefghijklmnopqrstuvwxyz".split("");
@@ -25,4 +31,22 @@ export async function getAllRecipes() {
   if (!recipes.length) throw new Error("No recipes returned");
 
   return recipes;
+}
+
+export async function getAreas() {
+  const result = await getMeals("list.php?a=list");
+  return (result.meals || []).map((area) => area.strArea).filter(Boolean).sort();
+}
+
+export async function getCategories() {
+  const result = await getMeals("list.php?c=list");
+  return (result.meals || [])
+    .map((category) => category.strCategory)
+    .filter(Boolean)
+    .sort();
+}
+
+export async function searchRecipesByName(query) {
+  const result = await getMeals(`search.php?s=${encodeURIComponent(query)}`);
+  return result.meals || [];
 }

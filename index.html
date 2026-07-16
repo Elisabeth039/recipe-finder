@@ -17,11 +17,11 @@
       <section class="search-controls" aria-label="Find recipes">
         <div class="filter-group">
           <label for="area-filter">Filters:</label>
-          <select id="area-filter" name="area">
-            <option value="">Country / area</option>
+          <select id="area-filter" name="area" class="is-native-filter">
+            <option value="">All areas</option>
           </select>
-          <select id="category-filter" name="category">
-            <option value="">Category</option>
+          <select id="category-filter" name="category" class="is-native-filter">
+            <option value="">All categories</option>
           </select>
           <button
             class="shuffle-button"
@@ -44,6 +44,7 @@
           <label class="sr-only" for="recipe-search">Search recipes</label>
           <input
             id="recipe-search"
+            name="search"
             type="search"
             placeholder="Search recipes..."
           />

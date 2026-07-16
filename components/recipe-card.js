@@ -1,4 +1,3 @@
-//checked
 export function createRecipeCard(meal) {
   const card = document.createElement("article");
   card.className = "recipe-card";

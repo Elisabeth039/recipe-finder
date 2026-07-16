@@ -24,6 +24,112 @@ select,
   color: var(--text);
   background: var(--button);
   padding: 0 13px;
+  transition: background-color 160ms ease;
+}
+select {
+  color-scheme: dark;
+}
+select option {
+  color: var(--text);
+  background: var(--button);
+}
+select option:checked,
+select option:hover,
+select option:focus {
+  color: var(--text);
+  background: var(--brown);
+}
+select option {
+  accent-color: var(--brown);
+}
+select:hover,
+.shuffle-button:hover,
+.alphabetize-button:hover,
+.search-form button:hover {
+  background: var(--brown);
+}
+select::-webkit-scrollbar {
+  width: 10px;
+}
+select::-webkit-scrollbar-track {
+  background: var(--button);
+}
+select::-webkit-scrollbar-thumb {
+  background: var(--brown);
+  border: 2px solid var(--button);
+  border-radius: 999px;
+}
+.is-native-filter {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+.filter-select {
+  position: relative;
+}
+.filter-select-trigger,
+.filter-select-option {
+  border: 0;
+  color: var(--text);
+  background: var(--button);
+  cursor: pointer;
+  font: inherit;
+}
+.filter-select-trigger {
+  min-height: 42px;
+  border-radius: 6px;
+  padding: 0 34px 0 13px;
+  position: relative;
+  text-align: left;
+}
+.filter-select-trigger::after {
+  position: absolute;
+  right: 13px;
+}
+.filter-select-trigger:hover,
+.filter-select-trigger[aria-expanded="true"],
+.filter-select-option:hover,
+.filter-select-option:focus-visible {
+  background: var(--brown);
+}
+.filter-select-trigger:focus-visible {
+  outline: 0;
+  background: var(--brown);
+}
+.filter-select-options {
+  position: absolute;
+  z-index: 2;
+  top: calc(100% + 4px);
+  left: 0;
+  min-width: 100%;
+  max-height: 230px;
+  overflow-y: auto;
+  border-radius: 6px;
+  background: var(--button);
+  box-shadow: 0 6px 16px rgb(0 0 0 / 0.25);
+}
+.filter-select-option {
+  display: block;
+  width: 100%;
+  min-height: 38px;
+  padding: 0 13px;
+  text-align: left;
+}
+.filter-select-option[aria-selected="true"] {
+  background: var(--brown);
+}
+.filter-select-options::-webkit-scrollbar {
+  width: 10px;
+}
+.filter-select-options::-webkit-scrollbar-track {
+  background: var(--button);
+}
+.filter-select-options::-webkit-scrollbar-thumb {
+  background: var(--brown);
+  border: 2px solid var(--button);
+  border-radius: 999px;
 }
 .shuffle-button {
   padding: 0 15px;
@@ -44,9 +150,26 @@ select,
   padding: 0 18px;
   background: var(--muted);
   color: var(--brown);
+  transition:
+    background-color 160ms ease,
+    color 160ms ease;
+}
+.search-form input:focus {
+  background: var(--brown);
+  color: var(--text);
+}
+.search-form input:focus-visible {
+  outline: 0;
 }
 .search-form button {
-  border: 1px solid var(--border);
+  border: 0;
+}
+.filter-group select:focus-visible,
+.search-form button:focus-visible,
+.shuffle-button:focus-visible,
+.alphabetize-button:focus-visible {
+  outline: 0;
+  background: var(--brown);
 }
 .status-message {
   min-height: 0.5rem;
@@ -70,6 +193,7 @@ select,
     font-size: 1rem;
   }
   .filter-group select,
+  .filter-group .filter-select,
   .filter-group .shuffle-button,
   .filter-group .alphabetize-button {
     flex: 0 0 auto;
@@ -96,11 +220,28 @@ select,
     padding: 0 7px;
     font-size: 0.85rem;
   }
+  .filter-group .filter-select {
+    min-width: 0;
+    font-size: 0.85rem;
+  }
   #area-filter {
     width: 94px;
   }
   #category-filter {
     width: 78px;
+  }
+  .filter-select:first-of-type {
+    width: 94px;
+  }
+  .filter-select:nth-of-type(2) {
+    width: 78px;
+  }
+  .filter-select-trigger {
+    width: 100%;
+    padding: 0 24px 0 7px;
+  }
+  .filter-select-trigger::after {
+    right: 7px;
   }
   .filter-group .shuffle-button,
   .filter-group .alphabetize-button {

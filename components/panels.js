@@ -1,4 +1,3 @@
-//checked
 export function initPanels() {
   const backdrop = document.querySelector(".backdrop");
   const panels = document.querySelectorAll(".side-panel");
