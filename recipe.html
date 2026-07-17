@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Placeholder Honey Bites | CrumBloom</title>
+    <title>Recipe details | CrumBloom</title>
     <link rel="icon" type="image/png" href="assets/favicon.png" />
     <link rel="stylesheet" href="styles.css" />
     <link rel="stylesheet" href="styles/Header.css" />
@@ -13,133 +13,26 @@
   <body>
     <site-header></site-header>
     <main class="page-shell details-page">
-      <article class="recipe-details">
-        <div class="details-title">
-          <h1>Placeholder Honey Bites</h1>
-          <button
-            class="card-favorite is-favorite info-title"
-            type="button"
-            aria-label="Remove Placeholder Honey Bites from favorites"
-            aria-pressed="true"
-          >
-            ★
-          </button>
-        </div>
-        <div class="details-grid">
-          <div
-            class="recipe-image detail-image"
-            role="img"
-            aria-label="Placeholder image for Honey Bites"
-          >
-            🍯
-          </div>
-          <div class="recipe-copy">
-            <p>
-              <strong>Region:</strong> Colombia &nbsp;
-              <strong>Category:</strong> Dessert
-            </p>
-            <p>
-              <a href="#" aria-label="Placeholder YouTube link"
-                >Watch on YouTube →</a
-              >
-            </p>
-            <h2>Instructions</h2>
-            <p class="instructions">
-              This is placeholder recipe text. The real instructions,
-              ingredients, video link, and recipe data will be added after the
-              API is connected.
-            </p>
-          </div>
-          <section class="ingredients" aria-labelledby="ingredients-title">
-            <h2 id="ingredients-title">Ingredients</h2>
-            <ul>
-              <li><span>Ingredient one</span><span>1 cup</span></li>
-              <li><span>Ingredient two</span><span>2 tbsp</span></li>
-              <li><span>Ingredient three</span><span>1 pinch</span></li>
-              <li><span>Ingredient four</span><span>to taste</span></li>
-            </ul>
-          </section>
-        </div>
-      </article>
-      <section class="related-recipes" aria-labelledby="related-title">
-        <h2 id="related-title">Recipes from the same category →</h2>
-        <div class="recipe-grid compact-grid">
-          <article class="recipe-card">
-            <a href="recipe.html"
-              ><div
-                class="recipe-image"
-                role="img"
-                aria-label="Placeholder image"
-              >
-                🍊
-              </div>
-              <h3>Placeholder Citrus Cake</h3></a
-            >
-          </article>
-          <article class="recipe-card">
-            <a href="recipe.html"
-              ><div
-                class="recipe-image"
-                role="img"
-                aria-label="Placeholder image"
-              >
-                🍫
-              </div>
-              <h3>Placeholder Cocoa Rolls</h3></a
-            >
-          </article>
-          <article class="recipe-card">
-            <a href="recipe.html"
-              ><div
-                class="recipe-image"
-                role="img"
-                aria-label="Placeholder image"
-              >
-                🍓
-              </div>
-              <h3>Placeholder Berry Toast</h3></a
-            >
-          </article>
-        </div>
+      <section data-recipe-details aria-live="polite" aria-busy="true"></section>
+      <section class="related-recipes" data-related-recipes aria-labelledby="related-title" hidden>
+        <h2 id="related-title">Recipes from the same category</h2>
+        <div class="recipe-grid compact-grid" data-related-grid></div>
       </section>
     </main>
     <div class="backdrop" hidden></div>
-    <aside
-      class="side-panel"
-      id="favorites-panel"
-      aria-labelledby="favorites-title"
-      aria-hidden="true"
-    >
+    <aside class="side-panel" id="favorites-panel" aria-labelledby="favorites-title" aria-hidden="true">
       <div class="panel-heading">
         <h2 id="favorites-title">Favorites</h2>
-        <button class="close-button" type="button" aria-label="Close favorites">
-          ×
-        </button>
+        <button class="close-button" type="button" aria-label="Close favorites">×</button>
       </div>
-      <p>
-        Your saved recipes will appear here once recipe functionality is
-        connected.
-      </p>
+      <p>No favorite recipes here yet.</p>
     </aside>
-    <aside
-      class="side-panel"
-      id="about-panel"
-      aria-labelledby="about-title"
-      aria-hidden="true"
-    >
+    <aside class="side-panel" id="about-panel" aria-labelledby="about-title" aria-hidden="true">
       <div class="panel-heading">
         <h2 id="about-title">About CrumBloom</h2>
-        <button
-          class="close-button"
-          type="button"
-          aria-label="Close about panel"
-        >
-          ×
-        </button>
+        <button class="close-button" type="button" aria-label="Close about panel">×</button>
       </div>
-      <p>
-        CrumBloom is a quiet place to discover recipes from around the world.
-      </p>
+      <p>CrumBloom is a quiet place to discover recipes from around the world.</p>
     </aside>
   </body>
 </html>

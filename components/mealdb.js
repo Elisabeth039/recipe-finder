@@ -50,3 +50,15 @@ export async function searchRecipesByName(query) {
   const result = await getMeals(`search.php?s=${encodeURIComponent(query)}`);
   return result.meals || [];
 }
+
+export async function getRecipeById(id) {
+  const result = await getMeals(`lookup.php?i=${encodeURIComponent(id)}`);
+  return result.meals?.[0] || null;
+}
+
+export async function getRecipesByCategory(category) {
+  const result = await getMeals(
+    `filter.php?c=${encodeURIComponent(category)}`,
+  );
+  return result.meals || [];
+}

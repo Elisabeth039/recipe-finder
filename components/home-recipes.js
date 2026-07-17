@@ -217,27 +217,38 @@ export function initHomeRecipes() {
   }
 
   function shuffleRecipes() {
-    if (allRecipes.length < 2) return;
+    const recipesToShuffle = searchResults ?? allRecipes;
+    if (recipesToShuffle.length < 2) return;
 
-    const previousOrder = [...allRecipes];
+    const previousOrder = [...recipesToShuffle];
 
-    for (let index = allRecipes.length - 1; index > 0; index -= 1) {
+    for (let index = recipesToShuffle.length - 1; index > 0; index -= 1) {
       const randomIndex = Math.floor(Math.random() * (index + 1));
-      [allRecipes[index], allRecipes[randomIndex]] = [
-        allRecipes[randomIndex],
-        allRecipes[index],
+      [recipesToShuffle[index], recipesToShuffle[randomIndex]] = [
+        recipesToShuffle[randomIndex],
+        recipesToShuffle[index],
       ];
     }
 
-    if (allRecipes.every((recipe, index) => recipe === previousOrder[index])) {
-      allRecipes.push(allRecipes.shift());
+    if (
+      recipesToShuffle.every(
+        (recipe, index) => recipe === previousOrder[index],
+      )
+    ) {
+      recipesToShuffle.push(recipesToShuffle.shift());
     }
 
-    saveRecipeOrder(allRecipes);
+    if (!searchResults) saveRecipeOrder(allRecipes);
     applyFilters();
   }
 
   function alphabetizeRecipes() {
+    if (searchResults) {
+      searchResults = sortAlphabetically(searchResults);
+      applyFilters();
+      return;
+    }
+
     if (!allRecipes.length) return;
 
     allRecipes = sortAlphabetically(allRecipes);
