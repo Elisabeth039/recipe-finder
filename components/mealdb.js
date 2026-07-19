@@ -35,7 +35,10 @@ export async function getAllRecipes() {
 
 export async function getAreas() {
   const result = await getMeals("list.php?a=list");
-  return (result.meals || []).map((area) => area.strArea).filter(Boolean).sort();
+  return (result.meals || [])
+    .map((area) => area.strArea)
+    .filter(Boolean)
+    .sort();
 }
 
 export async function getCategories() {
@@ -57,8 +60,6 @@ export async function getRecipeById(id) {
 }
 
 export async function getRecipesByCategory(category) {
-  const result = await getMeals(
-    `filter.php?c=${encodeURIComponent(category)}`,
-  );
+  const result = await getMeals(`filter.php?c=${encodeURIComponent(category)}`);
   return result.meals || [];
 }

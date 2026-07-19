@@ -58,7 +58,13 @@
         data-home-recipes
         aria-label="Recipes"
       ></section>
-      <nav class="pagination" aria-label="Recipe pages" hidden></nav>
+      <nav class="page-pagination" aria-label="Recipe page numbers" hidden></nav>
+      <div class="pagination-controls" hidden>
+        <nav class="pagination" aria-label="Recipe pages"></nav>
+        <button class="scroll-top-button" type="button" aria-label="Scroll to top">
+          ↑
+        </button>
+      </div>
     </main>
 
     <div class="backdrop" hidden></div>
@@ -74,7 +80,6 @@
           ×
         </button>
       </div>
-      <p>No favorite recipes here yet.</p>
     </aside>
     <aside
       class="side-panel"

@@ -1,11 +1,7 @@
-import {
-  getAllRecipes,
-  getCategories,
-  searchRecipesByName,
-} from "./mealdb.js";
+import { getAllRecipes, getCategories, searchRecipesByName } from "./mealdb.js";
 import { createRecipeCard } from "./recipe-card.js";
 
-const recipesPerPage = 28;
+const recipesPerPage = 32;
 const recipeOrderStorageKey = "crumbloom-recipe-order";
 
 function sortAlphabetically(recipeList) {
@@ -64,6 +60,9 @@ function clearSavedRecipeOrder() {
 export function initHomeRecipes() {
   const recipeGrid = document.querySelector("[data-home-recipes]");
   const pagination = document.querySelector(".pagination");
+  const paginationControls = document.querySelector(".pagination-controls");
+  const pagePagination = document.querySelector(".page-pagination");
+  const scrollTopButton = document.querySelector(".scroll-top-button");
   const message = document.querySelector(".status-message");
   const areaFilter = document.querySelector("#area-filter");
   const categoryFilter = document.querySelector("#category-filter");
@@ -75,21 +74,55 @@ export function initHomeRecipes() {
   let searchResults = null;
   let searchRequest = 0;
 
-  if (!recipeGrid || !pagination || !message) return;
+  if (
+    !recipeGrid ||
+    !pagination ||
+    !paginationControls ||
+    !pagePagination ||
+    !message
+  ) return;
 
   function renderPagination() {
     const pageCount = Math.ceil(recipes.length / recipesPerPage);
     pagination.replaceChildren();
-    pagination.hidden = pageCount <= 1;
+    paginationControls.hidden = pageCount <= 1;
+    pagePagination.replaceChildren();
+    pagePagination.hidden = pageCount <= 1;
 
     const previous = document.createElement("button");
     previous.type = "button";
     previous.textContent = "Previous";
     previous.disabled = currentPage === 1;
-    previous.addEventListener("click", () => renderPage(currentPage - 1));
+    previous.addEventListener("click", () => renderPage(currentPage - 1, true));
     pagination.append(previous);
 
-    for (let page = 1; page <= pageCount; page += 1) {
+    const next = document.createElement("button");
+    next.type = "button";
+    next.textContent = "Next";
+    next.disabled = currentPage === pageCount;
+    next.addEventListener("click", () => renderPage(currentPage + 1, true));
+    pagination.append(next);
+
+    const visiblePages = [
+      1,
+      currentPage - 1,
+      currentPage,
+      currentPage + 1,
+      pageCount,
+    ]
+      .filter((page) => page >= 1 && page <= pageCount)
+      .filter((page, index, pages) => pages.indexOf(page) === index)
+      .sort((first, second) => first - second);
+
+    visiblePages.forEach((page, index) => {
+      const previousPage = visiblePages[index - 1];
+      if (previousPage && page - previousPage > 1) {
+        const ellipsis = document.createElement("span");
+        ellipsis.textContent = "…";
+        ellipsis.setAttribute("aria-hidden", "true");
+        pagePagination.append(ellipsis);
+      }
+
       const pageButton = document.createElement("button");
       pageButton.type = "button";
       pageButton.textContent = page;
@@ -98,19 +131,12 @@ export function initHomeRecipes() {
         pageButton.className = "is-current";
         pageButton.setAttribute("aria-current", "page");
       }
-      pageButton.addEventListener("click", () => renderPage(page));
-      pagination.append(pageButton);
-    }
-
-    const next = document.createElement("button");
-    next.type = "button";
-    next.textContent = "Next";
-    next.disabled = currentPage === pageCount;
-    next.addEventListener("click", () => renderPage(currentPage + 1));
-    pagination.append(next);
+      pageButton.addEventListener("click", () => renderPage(page, true));
+      pagePagination.append(pageButton);
+    });
   }
 
-  function renderPage(page) {
+  function renderPage(page, scrollToFilters = false) {
     const pageCount = Math.ceil(recipes.length / recipesPerPage);
     currentPage = Math.min(Math.max(page, 1), Math.max(pageCount, 1));
     const start = (currentPage - 1) * recipesPerPage;
@@ -121,6 +147,13 @@ export function initHomeRecipes() {
       ? `Showing ${start + 1}–${start + pageRecipes.length} of ${recipes.length} recipes`
       : "No recipes match these filters.";
     renderPagination();
+
+    if (scrollToFilters) {
+      document.querySelector(".search-controls")?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
   }
 
   function addFilterOptions(filter, values) {
@@ -231,9 +264,7 @@ export function initHomeRecipes() {
     }
 
     if (
-      recipesToShuffle.every(
-        (recipe, index) => recipe === previousOrder[index],
-      )
+      recipesToShuffle.every((recipe, index) => recipe === previousOrder[index])
     ) {
       recipesToShuffle.push(recipesToShuffle.shift());
     }
@@ -280,7 +311,8 @@ export function initHomeRecipes() {
       applyFilters();
     } catch (error) {
       recipeGrid.replaceChildren();
-      pagination.hidden = true;
+      paginationControls.hidden = true;
+      pagePagination.hidden = true;
       message.textContent =
         "Recipes could not be loaded. Please try again later.";
     } finally {
@@ -292,6 +324,9 @@ export function initHomeRecipes() {
   categoryFilter?.addEventListener("change", applyFilters);
   shuffleButton?.addEventListener("click", shuffleRecipes);
   alphabetizeButton?.addEventListener("click", alphabetizeRecipes);
+  scrollTopButton?.addEventListener("click", () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
   document.addEventListener("recipe-search", async (event) => {
     const query = event.detail?.query || "";
     const requestId = ++searchRequest;
@@ -313,7 +348,8 @@ export function initHomeRecipes() {
     } catch (error) {
       if (requestId !== searchRequest) return;
       recipeGrid.replaceChildren();
-      pagination.hidden = true;
+      paginationControls.hidden = true;
+      pagePagination.hidden = true;
       message.textContent =
         "Search could not be completed. Please try again later.";
     } finally {

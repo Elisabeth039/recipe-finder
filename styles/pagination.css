@@ -1,11 +1,68 @@
+.pagination-controls {
+  position: fixed;
+  z-index: 3;
+  bottom: 20px;
+  left: 50%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transform: translateX(-50%);
+}
 .pagination {
   display: flex;
-  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  width: max-content;
+  max-width: calc(100vw - 32px);
+  padding: 8px;
+  border: 1px solid var(--favorite);
+  border-radius: 8px;
+  background: var(--card);
+  box-shadow: 0 6px 16px rgb(0 0 0 / 0.28);
+}
+.pagination button {
+  min-width: 42px;
+  min-height: 42px;
+  border: 0;
+  border-radius: 6px;
+  padding: 0 12px;
+  color: var(--text);
+  background: var(--button);
+  transition: background-color 160ms ease;
+}
+.pagination button:hover:not(:disabled) {
+  background: var(--brown);
+}
+.pagination button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+.scroll-top-button {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  border: 1px solid var(--favorite);
+  border-radius: 50%;
+  color: var(--text);
+  background: var(--button);
+  font-size: 1.5rem;
+  line-height: 1;
+  transition: background-color 160ms ease;
+}
+.scroll-top-button:hover {
+  background: var(--brown);
+}
+
+.page-pagination {
+  display: flex;
+  align-items: center;
   justify-content: center;
   gap: 8px;
   margin-top: 32px;
+  padding-bottom: 72px;
 }
-.pagination button {
+.page-pagination button {
   min-width: 42px;
   min-height: 42px;
   border: 1px solid var(--border);
@@ -13,12 +70,16 @@
   padding: 0 12px;
   color: var(--text);
   background: var(--button);
+  transition: background-color 160ms ease;
 }
-.pagination button.is-current {
+.page-pagination button:hover {
+  background: var(--brown);
+}
+.page-pagination button.is-current {
   color: var(--brown);
   background: var(--favorite);
 }
-.pagination button:disabled {
-  cursor: not-allowed;
-  opacity: 0.5;
+.page-pagination span {
+  min-width: 18px;
+  text-align: center;
 }
