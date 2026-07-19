@@ -1,3 +1,5 @@
+import { configureFavoriteButton } from "./favorites.js";
+
 export function createRecipeCard(meal) {
   const card = document.createElement("article");
   card.className = "recipe-card";
@@ -5,9 +7,8 @@ export function createRecipeCard(meal) {
   const favorite = document.createElement("button");
   favorite.className = "card-favorite";
   favorite.type = "button";
-  favorite.setAttribute("aria-label", `Add ${meal.strMeal} to favorites`);
-  favorite.setAttribute("aria-pressed", "false");
   favorite.textContent = "★";
+  configureFavoriteButton(favorite, meal);
 
   const link = document.createElement("a");
   link.href = `recipe.html?id=${encodeURIComponent(meal.idMeal)}`;

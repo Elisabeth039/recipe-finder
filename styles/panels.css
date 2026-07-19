@@ -9,6 +9,8 @@
   z-index: 6;
   top: 0;
   right: 0;
+  display: flex;
+  flex-direction: column;
   width: min(400px, 90vw);
   height: 100vh;
   transform: translateX(100%);
@@ -34,4 +36,116 @@
   background: transparent;
   color: var(--text);
   font-size: 2rem;
+}
+.favorites-content {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-width: none;
+  padding-top: 18px;
+  padding-right: 4px;
+}
+.favorites-content::-webkit-scrollbar {
+  display: none;
+}
+.favorites-empty-state {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.5;
+}
+.favorites-list {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.favorites-list li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: center;
+}
+.favorite-recipe-link {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 12px;
+  border-radius: 6px;
+  padding: 6px;
+}
+.favorite-recipe-link:hover {
+  background: var(--card-hover);
+}
+.favorite-recipe-link img {
+  width: 54px;
+  height: 44px;
+  border-radius: 4px;
+  object-fit: cover;
+}
+.favorite-recipe-link span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.favorite-remove-button {
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 6px 8px;
+  background: transparent;
+  color: var(--text);
+}
+.favorite-remove-button:hover {
+  background: var(--button);
+}
+.favorite-confirmation {
+  position: fixed;
+  z-index: 10;
+  display: grid;
+  place-items: center;
+  inset: 0;
+  padding: 20px;
+  background: rgb(0 0 0 / 0.68);
+}
+.favorite-confirmation-card {
+  width: min(420px, 100%);
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  padding: 24px;
+  background: var(--card);
+  box-shadow: 0 18px 45px rgb(0 0 0 / 0.35);
+}
+.favorite-confirmation-card h2 {
+  margin: 0 0 10px;
+  font-size: 1.4rem;
+  font-weight: 400;
+}
+.favorite-confirmation-card p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.5;
+}
+.favorite-confirmation-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 22px;
+}
+.favorite-confirmation-actions button {
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: 9px 12px;
+  color: var(--text);
+}
+.favorite-confirmation-cancel {
+  background: transparent;
+}
+.favorite-confirmation-cancel:hover {
+  background: var(--card-hover);
+}
+.favorite-confirmation-remove {
+  background: var(--button);
+}
+.favorite-confirmation-remove:hover {
+  background: var(--brown);
 }

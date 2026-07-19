@@ -1,4 +1,5 @@
 import { getRecipeById, getRecipesByCategory } from "./mealdb.js";
+import { configureFavoriteButton } from "./favorites.js";
 import { createRecipeCard } from "./recipe-card.js";
 
 function getIngredients(meal) {
@@ -31,9 +32,8 @@ function buildDetails(meal) {
   const favorite = document.createElement("button");
   favorite.className = "card-favorite info-title";
   favorite.type = "button";
-  favorite.setAttribute("aria-label", `Add ${meal.strMeal} to favorites`);
-  favorite.setAttribute("aria-pressed", "false");
   favorite.textContent = "★";
+  configureFavoriteButton(favorite, meal);
   titleRow.append(title, favorite);
 
   const grid = document.createElement("div");
@@ -61,7 +61,8 @@ function buildDetails(meal) {
   instructionsTitle.textContent = "Instructions";
   const instructions = document.createElement("p");
   instructions.className = "instructions";
-  instructions.textContent = meal.strInstructions || "Instructions are not available for this recipe.";
+  instructions.textContent =
+    meal.strInstructions || "Instructions are not available for this recipe.";
   copy.append(metadata);
   if (meal.strYoutube) {
     const video = document.createElement("a");
@@ -122,7 +123,11 @@ export function initRecipeDetails() {
 
   const mealId = new URLSearchParams(window.location.search).get("id")?.trim();
   if (!mealId) {
-    setState(details, "Choose a recipe from the recipe finder to view its details.", "missing");
+    setState(
+      details,
+      "Choose a recipe from the recipe finder to view its details.",
+      "missing",
+    );
     related.hidden = true;
     return;
   }
@@ -142,6 +147,10 @@ export function initRecipeDetails() {
       loadRelatedRecipes(meal, related);
     })
     .catch(() => {
-      setState(details, "Recipe details could not be loaded. Please try again later.", "error");
+      setState(
+        details,
+        "Recipe details could not be loaded. Please try again later.",
+        "error",
+      );
     });
 }
